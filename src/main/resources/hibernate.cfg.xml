@@ -9,10 +9,11 @@
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:2427/test</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">kevin.2427</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.highlight_sql">true</property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
     </session-factory>
 </hibernate-configuration>

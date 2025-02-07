@@ -1,19 +1,17 @@
 package controller;
 
 
-import model.ImageModel;
 import model.ProductModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import service.ProductService;
 import service.PurchaseService;
 import service.UserService;
 
-import java.util.List;
 
 @RestController
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
     private UserService userService;
@@ -26,10 +24,12 @@ public class EmployeeController {
         this.purchaseService = purchaseService;
     }
 
-    @GetMapping("/addProducts")
-    public ResponseEntity<ProductModel> saveProducts(@RequestBody ProductModel product, @RequestBody List<ImageModel> images){
-
-        return ResponseEntity.ok(product);
+    @PostMapping("/addNewProduct")
+    public ResponseEntity<ProductModel> addProduct(@RequestPart ProductModel product
+            , @RequestPart MultipartFile[] imageData){
+        System.out.println(product);
+        return ResponseEntity.ok(productService.saveTheProduct(product,imageData));
     }
+
 
 }

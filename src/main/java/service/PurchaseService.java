@@ -3,7 +3,6 @@ package service;
 import model.ProductModel;
 import model.PurchaseModel;
 import org.springframework.stereotype.Service;
-import repo.imageRepo.ImageModelRepoImpl;
 import repo.productRepo.ProductModelRepoInterface;
 import repo.purchaseRepo.UserPurchaseRepoInterface;
 import repo.userRepo.UserModelRepoInterface;
@@ -17,13 +16,12 @@ public class PurchaseService {
     private ProductModelRepoInterface productRepo;
     private UserModelRepoInterface userRepo;
     private UserPurchaseRepoInterface purchaseRepo;
-    private ImageModelRepoImpl imageRepo;
 
-    public PurchaseService(ProductModelRepoInterface productRepo, UserModelRepoInterface userRepo, UserPurchaseRepoInterface purchaseRepo, ImageModelRepoImpl imageRepo) {
+    public PurchaseService(ProductModelRepoInterface productRepo, UserModelRepoInterface userRepo, UserPurchaseRepoInterface purchaseRepo) {
         this.productRepo = productRepo;
         this.userRepo = userRepo;
         this.purchaseRepo = purchaseRepo;
-        this.imageRepo = imageRepo;
+
     }
     public PurchaseModel getByBillId(Long id){
         return (PurchaseModel) purchaseRepo.findUserByPurchaseId(id);

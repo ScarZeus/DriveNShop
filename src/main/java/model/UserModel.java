@@ -1,12 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 import javax.crypto.SecretKey;
 
 @Entity
-@Table(name = "users")
 public class UserModel {
 
     @Id

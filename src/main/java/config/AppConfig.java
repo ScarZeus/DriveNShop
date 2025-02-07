@@ -1,7 +1,6 @@
 package config;
 
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import model.ImageModel;
 import model.ProductModel;
 import model.PurchaseModel;
 import model.UserModel;
@@ -37,7 +36,7 @@ public class AppConfig implements WebMvcConfigurer {
     public org.hibernate.cfg.Configuration configuration(){
         org.hibernate.cfg.Configuration con= new org.hibernate.cfg.Configuration();
         con.configure();
-       con.addAnnotatedClass(UserModel.class).addAnnotatedClass(ProductModel.class).addAnnotatedClass(PurchaseModel.class).addAnnotatedClass(ImageModel.class);
+       con.addAnnotatedClass(UserModel.class).addAnnotatedClass(ProductModel.class).addAnnotatedClass(PurchaseModel.class);
         return con;
     }
 

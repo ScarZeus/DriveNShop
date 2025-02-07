@@ -11,6 +11,7 @@ import service.UserService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     private UserService userService;
@@ -31,13 +32,5 @@ public class UserController {
         List<ProductModel> products=productService.getProductsBycategory(category);
         return ResponseEntity.ok(products);
     }
-
-
-
-    @GetMapping("/api/image/{imageID}")
-    public ResponseEntity<?> imageOfProducts(@PathVariable("imageID") Long id){
-        return null;
-    }
-
 
 }

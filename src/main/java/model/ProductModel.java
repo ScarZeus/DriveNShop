@@ -27,9 +27,6 @@ public class ProductModel {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "images")
-    private List<String> images ;
-
     @Column(name="discount")
     private int discount;
 
@@ -39,20 +36,36 @@ public class ProductModel {
     @Column(name="brand")
     private String brand;
 
+    @Column(name="rating")
+    private int rating;
+
+    @Column(name="product_image_type")
+    private List<String> productImageType;
+
+    @Lob
+    @Column(name="product_image")
+    private List<byte[]> productImage;
+
+    @Column(name="product_image_name")
+    private List<String> productImageName;
+
     public ProductModel() {
     }
 
-    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, List<String> images, int discount, Long count, String brand) {
+    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount, Long count, String brand, int rating, List<String> productImageType, List<byte[]> productImage, List<String> productImageName) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.category = category;
-        this.images = images;
         this.discount = discount;
         this.count = count;
         this.brand = brand;
+        this.rating = rating;
+        this.productImageType = productImageType;
+        this.productImage = productImage;
+        this.productImageName = productImageName;
     }
 
     public Long getId() {
@@ -103,14 +116,6 @@ public class ProductModel {
         this.category = category;
     }
 
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
     public int getDiscount() {
         return discount;
     }
@@ -135,6 +140,38 @@ public class ProductModel {
         this.brand = brand;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public List<String> getProductImageType() {
+        return productImageType;
+    }
+
+    public void setProductImageType(List<String> productImageType) {
+        this.productImageType = productImageType;
+    }
+
+    public List<byte[]> getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(List<byte[]> productImage) {
+        this.productImage = productImage;
+    }
+
+    public List<String> getProductImageName() {
+        return productImageName;
+    }
+
+    public void setProductImageName(List<String> productImageName) {
+        this.productImageName = productImageName;
+    }
+
     @Override
     public String toString() {
         return "ProductModel{" +
@@ -144,10 +181,13 @@ public class ProductModel {
                 ", price=" + price +
                 ", stock=" + stock +
                 ", category='" + category + '\'' +
-                ", images=" + images +
                 ", discount=" + discount +
                 ", count=" + count +
                 ", brand='" + brand + '\'' +
+                ", rating=" + rating +
+                ", productImageType=" + productImageType +
+                ", productImage=" + productImage +
+                ", productImageName=" + productImageName +
                 '}';
     }
 }

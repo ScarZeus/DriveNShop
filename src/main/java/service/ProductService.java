@@ -1,17 +1,16 @@
 package service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import model.ImageModel;
 import model.ProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import repo.imageRepo.ImageModelRepoImpl;
+import org.springframework.web.multipart.MultipartFile;
 import repo.productRepo.ProductModelRepoInterface;
 import repo.purchaseRepo.UserPurchaseRepoInterface;
 import repo.userRepo.UserModelRepoInterface;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,20 +19,43 @@ public class ProductService {
     private ProductModelRepoInterface productRepo;
     private UserModelRepoInterface userRepo;
     private UserPurchaseRepoInterface purchaseRepo;
-    private ImageModelRepoImpl imageRepo;
-
     @Autowired
     private HttpServletRequest request;
 
 
-    public ProductService(ProductModelRepoInterface productRepo, UserModelRepoInterface userRepo, UserPurchaseRepoInterface purchaseRepo, ImageModelRepoImpl imageRepo) {
+    public ProductService(ProductModelRepoInterface productRepo, UserModelRepoInterface userRepo, UserPurchaseRepoInterface purchaseRepo){
         this.productRepo = productRepo;
         this.userRepo = userRepo;
         this.purchaseRepo = purchaseRepo;
-        this.imageRepo = imageRepo;
+
     }
 
-    public ProductModel saveTheProduct(ProductModel product){
+    public ProductModel saveTheProduct(ProductModel product, MultipartFile[] imageData){
+        product.setProductImageName(
+                Arrays.stream(imageData)
+                        .map(MultipartFile::getOriginalFilename)
+                        .collect(Collectors.toList())
+        );
+
+        product.setProductImageType(
+                Arrays.stream(imageData)
+                        .map(MultipartFile::getContentType)
+                        .collect(Collectors.toList())
+        );
+
+        product.setProductImage(
+                Arrays.stream(imageData)
+                        .map(image-> {
+                            try {
+                                return image.getBytes();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
+                        .collect(Collectors.toList())
+        );
+        System.out.println(product);
+
         return (ProductModel) productRepo.save(product);
     }
 
@@ -69,29 +91,8 @@ public class ProductService {
         return filteredList;
     }
 
-    public List<ImageModel> saveImage(List<ImageModel> imageList,Long productId){
-        String url =ServletUriComponentsBuilder.fromRequest(request).toUriString();
-        ProductModel product = (ProductModel) productRepo.findById(productId);
-        if (product == null) {
-            throw new RuntimeException("Product not found with ID: " + productId);
-        }
-        imageList.forEach(item-> item.setProductRef(product));
-        List<String> urls = product.getImages() == null ? new ArrayList<>() : product.getImages();
-        List<ImageModel> saved = imageRepo.saveImages(imageList);
-        for(ImageModel index: saved ){
-            urls.add(url+"/image/"+product.getId()+"/"+index.getId());
-        }
-        product.setImages(urls);
-        productRepo.updateProduct(product);
-        return imageList;
-    }
 
-    public void deleteImage(Long imageId,Long prodId){
-        ProductModel product=(ProductModel) productRepo.findById(prodId);
-        product.setImages(null);
-        productRepo.updateProduct(product);
-        imageRepo.deleteImages(imageId);
-    }
+
 
 
 
