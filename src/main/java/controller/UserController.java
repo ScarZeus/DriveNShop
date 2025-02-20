@@ -1,6 +1,7 @@
 package controller;
 
 import model.ProductModel;
+import model.PurchaseModel;
 import model.UserModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,17 @@ public class UserController {
         return ResponseEntity.ok(userService.saveNewUser(user));
     }
     @GetMapping("/getProducts/{category}")
-    public ResponseEntity<List<ProductModel>> model(@PathVariable("category") String category){
+    public ResponseEntity<List<ProductModel>> categoryProducts(@PathVariable("category") String category){
         List<ProductModel> products=productService.getProductsBycategory(category);
         return ResponseEntity.ok(products);
     }
+
+    @PostMapping("/saveBill")
+    public ResponseEntity<PurchaseModel> saveBill(@RequestBody PurchaseModel purchaseModel){
+        return ResponseEntity.ok(purchaseService.saveTheBill(purchaseModel));
+    }
+
+    @GetMapping("/calculateBill")
+    public ResponseEntity<PurchaseModel> payBill()
 
 }

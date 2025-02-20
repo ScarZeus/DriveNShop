@@ -10,6 +10,7 @@ import repo.purchaseRepo.UserPurchaseRepoInterface;
 import repo.userRepo.UserModelRepoInterface;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,33 +31,17 @@ public class ProductService {
 
     }
 
-    public ProductModel saveTheProduct(ProductModel product, MultipartFile[] imageData){
-        product.setProductImageName(
-                Arrays.stream(imageData)
-                        .map(MultipartFile::getOriginalFilename)
-                        .collect(Collectors.toList())
-        );
+    public ProductModel saveTheProduct(ProductModel product, MultipartFile imageData) {
 
-        product.setProductImageType(
-                Arrays.stream(imageData)
-                        .map(MultipartFile::getContentType)
-                        .collect(Collectors.toList())
-        );
-
-        product.setProductImage(
-                Arrays.stream(imageData)
-                        .map(image-> {
-                            try {
-                                return image.getBytes();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        })
-                        .collect(Collectors.toList())
-        );
-        System.out.println(product);
-
-        return (ProductModel) productRepo.save(product);
+        product.setImageType(imageData.getContentType());
+        try {
+            product.setImageData(imageData.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        product.setImageName(imageData.getContentType());
+        System.out.println("At Service");
+        return (ProductModel)  productRepo.save(product);
     }
 
     public void updateProducts(ProductModel updateModel){

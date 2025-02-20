@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -39,20 +40,19 @@ public class ProductModel {
     @Column(name="rating")
     private int rating;
 
-    @Column(name="product_image_type")
-    private List<String> productImageType;
+    @Column(name="image_data")
+    private byte[] imageData;
 
-    @Lob
-    @Column(name="product_image")
-    private List<byte[]> productImage;
+    @Column(name = "image_name")
+    private String imageName;
 
-    @Column(name="product_image_name")
-    private List<String> productImageName;
+    @Column(name="image_Type")
+    private String imageType;
 
     public ProductModel() {
     }
 
-    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount, Long count, String brand, int rating, List<String> productImageType, List<byte[]> productImage, List<String> productImageName) {
+    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount, Long count, String brand, int rating, byte[] imageData, String imageName, String imageType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -63,9 +63,9 @@ public class ProductModel {
         this.count = count;
         this.brand = brand;
         this.rating = rating;
-        this.productImageType = productImageType;
-        this.productImage = productImage;
-        this.productImageName = productImageName;
+        this.imageData = imageData;
+        this.imageName = imageName;
+        this.imageType = imageType;
     }
 
     public Long getId() {
@@ -148,28 +148,28 @@ public class ProductModel {
         this.rating = rating;
     }
 
-    public List<String> getProductImageType() {
-        return productImageType;
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setProductImageType(List<String> productImageType) {
-        this.productImageType = productImageType;
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
-    public List<byte[]> getProductImage() {
-        return productImage;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setProductImage(List<byte[]> productImage) {
-        this.productImage = productImage;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
-    public List<String> getProductImageName() {
-        return productImageName;
+    public String getImageType() {
+        return imageType;
     }
 
-    public void setProductImageName(List<String> productImageName) {
-        this.productImageName = productImageName;
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 
     @Override
@@ -185,9 +185,9 @@ public class ProductModel {
                 ", count=" + count +
                 ", brand='" + brand + '\'' +
                 ", rating=" + rating +
-                ", productImageType=" + productImageType +
-                ", productImage=" + productImage +
-                ", productImageName=" + productImageName +
+                ", imageData=" + Arrays.toString(imageData) +
+                ", imageName='" + imageName + '\'' +
+                ", imageType='" + imageType + '\'' +
                 '}';
     }
 }

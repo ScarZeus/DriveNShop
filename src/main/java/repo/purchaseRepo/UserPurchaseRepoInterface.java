@@ -15,6 +15,7 @@ public interface UserPurchaseRepoInterface<T,ID> {
     void deleteBeforeDate(Date date);
     void deleteAfterDate(Date date);
     void deleteCustom(Date from , Date to);
+    T getBillById(ID billID);
 
 
 }

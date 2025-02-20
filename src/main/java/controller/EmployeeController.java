@@ -24,10 +24,9 @@ public class EmployeeController {
         this.purchaseService = purchaseService;
     }
 
-    @PostMapping("/addNewProduct")
-    public ResponseEntity<ProductModel> addProduct(@RequestPart ProductModel product
-            , @RequestPart MultipartFile[] imageData){
-        System.out.println(product);
+    @PostMapping(value = "/addNewProduct")
+    public ResponseEntity<ProductModel> addProduct(@RequestPart("data") ProductModel product
+            , @RequestPart("file") MultipartFile imageData){
         return ResponseEntity.ok(productService.saveTheProduct(product,imageData));
     }
 

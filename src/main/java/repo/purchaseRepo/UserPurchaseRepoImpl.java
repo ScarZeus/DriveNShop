@@ -104,4 +104,14 @@ public class UserPurchaseRepoImpl implements UserPurchaseRepoInterface<PurchaseM
      });
     }
 
+    @Override
+    public PurchaseModel getBillById(Long id) {
+        purchasedProducts=null;
+        factory.inSession(session -> {
+            String query = "SELECT t FROM PurchaseModel";
+             purchasedProducts = session.createSelectionQuery(query, PurchaseModel.class).getSingleResult();
+        });
+        return purchasedProducts;
+    }
+
 }

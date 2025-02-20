@@ -51,7 +51,9 @@ public class ProductRepoImpl implements ProductModelRepoInterface<ProductModel,L
     @Override
     public ProductModel save(ProductModel productEntity) {
         factory.inTransaction(session -> {
+            System.out.println("Before Storing");
             session.persist(productEntity);
+            System.out.println("Successfull");
         });
         return productEntity;
     }

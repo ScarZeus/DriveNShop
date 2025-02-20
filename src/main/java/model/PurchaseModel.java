@@ -25,7 +25,7 @@ public class PurchaseModel {
     @Column(name = "total_amount", nullable = false)
     private Long totalAmount;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "purchase_id")
     private List<ProductModel> products;
 

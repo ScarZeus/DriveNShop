@@ -52,7 +52,6 @@ public class PurchaseService {
                 .mapToLong(product ->
                         (long) (product.getPrice() - (product.getPrice() * product.getCount() * (product.getDiscount() / 100.0))))
                 .sum();
-
         bill.setTotalAmount(total);
         return bill;
     }
@@ -65,6 +64,11 @@ public class PurchaseService {
         productRepo.updateAll(updatedproduct);
         return  (PurchaseModel)purchaseRepo.saveBill(purchaseModel);
 
+    }
+
+    public PurchaseModel getTheBill(Long id){
+        PurchaseModel purchaseBill = (PurchaseModel) purchaseRepo.getBillById(id);
+        List<ProductModel> listOfProducts = purchaseBill.getProducts();
     }
 
 }
