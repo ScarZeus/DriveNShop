@@ -40,6 +40,10 @@ public class UserController {
     }
 
     @GetMapping("/calculateBill")
-    public ResponseEntity<PurchaseModel> payBill()
+    public ResponseEntity<PurchaseModel> payBill(PurchaseModel model){
+        PurchaseModel bill = purchaseService.calculateTheBill(model);
+        return ResponseEntity.ok(bill);
+    }
+
 
 }

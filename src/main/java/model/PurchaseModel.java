@@ -2,7 +2,6 @@ package model;
 
 import jakarta.persistence.*;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -32,16 +31,14 @@ public class PurchaseModel {
     @Column(name="total_discountAmount")
     private Long discountAmount;
 
-    public PurchaseModel(Long id, String username ,String userEmailID, Date purchaseDate, Long totalAmount, List<ProductModel> products) {
-        this.id = id;
-        this.username = username  ;
-        this.purchaseDate = purchaseDate;
-        this.userEmailID=userEmailID;
-        this.totalAmount = totalAmount;
-        this.products = products;
+    @Column(name="PaymentModes")
+    @Enumerated(EnumType.STRING)
+    private PaymentModes paymentModes;
+
+    public PurchaseModel() {
     }
 
-    public PurchaseModel(Long id, String username, Date purchaseDate, String userEmailID, Long totalAmount, List<ProductModel> products, Long discountAmount) {
+    public PurchaseModel(Long id, String username, Date purchaseDate, String userEmailID, Long totalAmount, List<ProductModel> products, Long discountAmount, PaymentModes paymentModes) {
         this.id = id;
         this.username = username;
         this.purchaseDate = purchaseDate;
@@ -49,9 +46,7 @@ public class PurchaseModel {
         this.totalAmount = totalAmount;
         this.products = products;
         this.discountAmount = discountAmount;
-    }
-
-    public PurchaseModel() {
+        this.paymentModes = paymentModes;
     }
 
     public Long getId() {
@@ -102,12 +97,33 @@ public class PurchaseModel {
         this.products = products;
     }
 
-    public Long getDiscount() {
+    public Long getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscount(Long discountAmount) {
+    public void setDiscountAmount(Long discountAmount) {
         this.discountAmount = discountAmount;
     }
-}
 
+    public PaymentModes getPaymentModes() {
+        return paymentModes;
+    }
+
+    public void setPaymentModes(PaymentModes paymentModes) {
+        this.paymentModes = paymentModes;
+    }
+
+    @Override
+    public String toString() {
+        return "PurchaseModel{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", purchaseDate=" + purchaseDate +
+                ", userEmailID='" + userEmailID + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", products=" + products +
+                ", discountAmount=" + discountAmount +
+                ", paymentModes=" + paymentModes +
+                '}';
+    }
+}

@@ -20,8 +20,7 @@ public class ProductService {
     private ProductModelRepoInterface productRepo;
     private UserModelRepoInterface userRepo;
     private UserPurchaseRepoInterface purchaseRepo;
-    @Autowired
-    private HttpServletRequest request;
+
 
 
     public ProductService(ProductModelRepoInterface productRepo, UserModelRepoInterface userRepo, UserPurchaseRepoInterface purchaseRepo){
@@ -40,7 +39,6 @@ public class ProductService {
             throw new RuntimeException(e);
         }
         product.setImageName(imageData.getContentType());
-        System.out.println("At Service");
         return (ProductModel)  productRepo.save(product);
     }
 

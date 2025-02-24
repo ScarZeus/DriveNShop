@@ -1,5 +1,6 @@
 package service;
 
+import AppExceptions.EntityNotFoundException;
 import model.ProductModel;
 import model.PurchaseModel;
 import org.springframework.stereotype.Service;
@@ -66,9 +67,16 @@ public class PurchaseService {
 
     }
 
-    public PurchaseModel getTheBill(Long id){
-        PurchaseModel purchaseBill = (PurchaseModel) purchaseRepo.getBillById(id);
-        List<ProductModel> listOfProducts = purchaseBill.getProducts();
-    }
 
+    public PurchaseModel updateBill(PurchaseModel billEntity) throws EntityNotFoundException {
+       PurchaseModel model =(PurchaseModel) purchaseRepo.findUserByPurchaseId(billEntity.getId());
+       if(model!=null){
+           purchaseRepo.delete(billEntity);
+           purchaseRepo.saveBill(billEntity);
+           return (PurchaseModel) purchaseRepo.findUserByPurchaseId(billEntity.getId());
+       }
+       else{
+           throw new EntityNotFoundException("Bill not Found");
+       }
+    }
 }
