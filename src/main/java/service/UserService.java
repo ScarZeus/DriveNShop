@@ -48,5 +48,4 @@ public class UserService {
         return (UserModel) userRepo.findByEmailId(name);
     }
 
-
 }

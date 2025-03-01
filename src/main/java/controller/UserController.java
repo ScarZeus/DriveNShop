@@ -45,5 +45,17 @@ public class UserController {
         return ResponseEntity.ok(bill);
     }
 
+    @GetMapping("/getProductByName")
+    public ResponseEntity<List<ProductModel>> getProductByName(@RequestParam("productName") String product){
+        try {
+            List<ProductModel> matchProduct=productService.getSearchedProducts(product);
+            return ResponseEntity.ok(matchProduct);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+
+    }
+
 
 }

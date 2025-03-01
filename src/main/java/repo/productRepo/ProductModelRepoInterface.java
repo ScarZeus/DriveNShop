@@ -12,7 +12,7 @@ public interface ProductModelRepoInterface<T , ID> {
 
     void updateProduct(T entity);
 
-    void deleteById(ID id);
+    void deleteById(T product);
 
     List<T> findAllByName(String name);
 

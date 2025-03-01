@@ -31,6 +31,27 @@ public class EmployeeController {
         return ResponseEntity.ok(productService.saveTheProduct(product,imageData));
     }
 
+    @GetMapping("/getProductByID/{id}")
+    public ResponseEntity<ProductModel> getProductByID(@PathVariable("id") Long id){
+        try{
+            return ResponseEntity.ok(productService.findByProductID(id));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+
+    }
+    @DeleteMapping("/deleteProduct")
+    public ResponseEntity<String> deleteProduct(@RequestBody ProductModel product){
+        try{
+            productService.deleteByProduct(product);
+            return ResponseEntity.ok("Deleted Successfully");
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Bad Request for Deleting a  Product");
+        }
+    }
+
     @GetMapping("/getBill")
     public ResponseEntity<PurchaseModel> getBill(@RequestParam("billID") Long id){
         PurchaseModel billEntity = purchaseService.getByBillId(id);
@@ -47,11 +68,6 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/deleteProduct")
-    public ResponseEntity<?> deleteProduct(@RequestBody ProductModel product){
-        productService.deleteByProductId(product.getId());
-        return ResponseEntity.ok("Deleted Succcessfully");
-    }
 
 
 }

@@ -1,5 +1,6 @@
 package service;
 
+import AppExceptions.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import model.ProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,14 @@ public class ProductService {
         productRepo.updateProduct(updateModel);
     }
 
-    public void deleteByProductId(Long id){
-        productRepo.deleteById(id);
+    public void deleteByProduct(ProductModel removalItem) throws EntityNotFoundException{
+        ProductModel product=findByProductID(removalItem.getId());
+        if(product!=null){
+            productRepo.deleteById(product);
+        }
+        else{
+            throw new EntityNotFoundException("Product Not Found");
+        }
     }
 
     public ProductModel findByProductID(Long id){
@@ -59,11 +66,16 @@ public class ProductService {
         return productRepo.getAllByCategory(category);
     }
 
-    public List<ProductModel> getSearchedProducts(String nameOfTheProduct){
+    public List<ProductModel> getSearchedProducts(String nameOfTheProduct) throws EntityNotFoundException{
         List<ProductModel> foundProducts= productRepo.findAllByName(nameOfTheProduct);
-        return foundProducts.stream()
-                .filter(product -> product.getStock() > 0) // Only keep products with stock > 0
-                .collect(Collectors.toList());
+        if(foundProducts!=null){
+            return foundProducts.stream()
+                    .filter(product -> product.getStock() > 0) // Only keep products with stock > 0
+                    .collect(Collectors.toList());
+        }
+       else {
+           throw new EntityNotFoundException("No Matching Requests");
+        }
     }
 
     public List<ProductModel> filterProducts(String productName,String brand , Long price){
@@ -73,10 +85,6 @@ public class ProductService {
                 .collect(Collectors.toList());
         return filteredList;
     }
-
-
-
-
 
 
 }

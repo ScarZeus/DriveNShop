@@ -82,9 +82,7 @@ public class ProductRepoImpl implements ProductModelRepoInterface<ProductModel,L
 
 
     @Override
-    public void deleteById(Long id) {
-        products=null;
-        products=findById(id);
+    public void deleteById(ProductModel product) {
         factory.inTransaction(session -> {
             session.remove(products);
         });
