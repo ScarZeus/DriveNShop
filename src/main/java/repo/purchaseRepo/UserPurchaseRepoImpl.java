@@ -52,7 +52,7 @@ public class UserPurchaseRepoImpl implements UserPurchaseRepoInterface<PurchaseM
             );
         }
         catch (Exception e){
-            throw new RuntimeException("bill Entity Persist failed");
+            throw new RuntimeException("bill Entity Persist failed:"+e.toString());
         }
         return billEntity;
     }

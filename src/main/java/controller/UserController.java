@@ -4,6 +4,7 @@ import model.CartModel;
 import model.ProductModel;
 import model.PurchaseModel;
 import model.UserModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.ProductService;
@@ -42,7 +43,7 @@ public class UserController {
 
     @GetMapping("/calculateBill")
     public ResponseEntity<PurchaseModel> payBill(@RequestBody CartModel products){
-        PurchaseModel bill = purchaseService.calculateTheBill(products);
+        PurchaseModel bill = purchaseService.calculateBill(products);
         return ResponseEntity.ok(bill);
     }
 
@@ -57,6 +58,16 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/fetchImage/{id}/image")
+    public ResponseEntity<byte[]> fetchImage(@PathVariable("id") long id){
+        ProductModel product = productService.findByProductID(id);
+        byte[] fileData = product.getImageData();
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(product.getImageType()))
+                .body(fileData);
+    }
+    //http://localhost:7050/E-CommerceAppFullStack/api/user/fetchImage/3/image
 
 
 }

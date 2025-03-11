@@ -1,10 +1,7 @@
 package service;
 
 import AppExceptions.EntityNotFoundException;
-import model.CartItem;
-import model.CartModel;
-import model.ProductModel;
-import model.PurchaseModel;
+import model.*;
 import org.springframework.stereotype.Service;
 import repo.productRepo.ProductModelRepoInterface;
 import repo.purchaseRepo.UserPurchaseRepoInterface;
@@ -55,7 +52,8 @@ public class PurchaseService {
     }
 
     public PurchaseModel saveTheBill(PurchaseModel bill){
-        purchaseRepo.update(bill);
+        bill.setPurchaseDate(new Date());
+        purchaseRepo.saveBill(bill);
         return bill;
     }
 
@@ -68,6 +66,10 @@ public class PurchaseService {
         //update the count of the product Model stock count by substracting the productmodel stock count
         for(CartItem item : products){
             ProductModel product = item.getProduct();
+            ProductModel foundProduct = (ProductModel) productRepo.findById(product.getId());
+            product.setImageData(foundProduct.getImageData());
+            product.setImageName(foundProduct.getImageName());
+            product.setImageType(foundProduct.getImageType());
             product.setStock(product.getStock()-item.getCount());
              total += item.getCount()*(product.getPrice() - product.getPrice() * (product.getDiscount()/100));
              totalDiscount +=item.getCount()*(product.getPrice()*(product.getDiscount()/100));
@@ -79,9 +81,9 @@ public class PurchaseService {
         bill.setTotalAmount(total);
         bill.setDiscountAmount(totalDiscount);
         bill.setProducts(purchasedItem);
-        //update the products in the Model
-        return  (PurchaseModel)purchaseRepo.saveBill(bill);
-
+        bill.setUserEmailID(cartItems.getUser().getEmail());
+        bill.setPaymentModes(PaymentModes.OFFLINE);
+        return bill;
     }
 
 
