@@ -31,9 +31,6 @@ public class ProductModel {
     @Column(name="discount")
     private int discount;
 
-    @Column(name = "count")
-    private Long count;
-
     @Column(name="brand")
     private String brand;
 
@@ -52,7 +49,7 @@ public class ProductModel {
     public ProductModel() {
     }
 
-    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount, Long count, String brand, int rating, byte[] imageData, String imageName, String imageType) {
+    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount,  String brand, int rating, byte[] imageData, String imageName, String imageType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -60,7 +57,6 @@ public class ProductModel {
         this.stock = stock;
         this.category = category;
         this.discount = discount;
-        this.count = count;
         this.brand = brand;
         this.rating = rating;
         this.imageData = imageData;
@@ -124,13 +120,6 @@ public class ProductModel {
         this.discount = discount;
     }
 
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
-    }
 
     public String getBrand() {
         return brand;
@@ -182,7 +171,6 @@ public class ProductModel {
                 ", stock=" + stock +
                 ", category='" + category + '\'' +
                 ", discount=" + discount +
-                ", count=" + count +
                 ", brand='" + brand + '\'' +
                 ", rating=" + rating +
                 ", imageData=" + Arrays.toString(imageData) +

@@ -114,4 +114,12 @@ public class UserPurchaseRepoImpl implements UserPurchaseRepoInterface<PurchaseM
         return purchasedProducts;
     }
 
+    @Override
+    public void update(PurchaseModel entity) {
+        factory.inTransaction(session -> {
+            session.remove(entity);
+            session.remove(entity);
+        });
+    }
+
 }

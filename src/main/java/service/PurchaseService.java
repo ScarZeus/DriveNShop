@@ -1,6 +1,8 @@
 package service;
 
 import AppExceptions.EntityNotFoundException;
+import model.CartItem;
+import model.CartModel;
 import model.ProductModel;
 import model.PurchaseModel;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import repo.productRepo.ProductModelRepoInterface;
 import repo.purchaseRepo.UserPurchaseRepoInterface;
 import repo.userRepo.UserModelRepoInterface;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +29,10 @@ public class PurchaseService {
     }
     public PurchaseModel getByBillId(Long id){
         return (PurchaseModel) purchaseRepo.findUserByPurchaseId(id);
+    }
+
+    public PurchaseModel getBillByid(long id){
+        return (PurchaseModel) purchaseRepo.getBillById(id);
     }
 
     public List<PurchaseModel> getAllPurchasesByDate(Date date){
@@ -47,23 +54,33 @@ public class PurchaseService {
         purchaseRepo.delete(id);
     }
 
-    public PurchaseModel calculateTheBill(PurchaseModel bill){
-        List<ProductModel> productsPuchased = bill.getProducts();
-        long total = productsPuchased.stream()
-                .mapToLong(product ->
-                        (long) (product.getPrice() - (product.getPrice() * product.getCount() * (product.getDiscount() / 100.0))))
-                .sum();
-        bill.setTotalAmount(total);
+    public PurchaseModel saveTheBill(PurchaseModel bill){
+        purchaseRepo.update(bill);
         return bill;
     }
 
-    public PurchaseModel saveTheBill(PurchaseModel purchaseModel){
-        List<ProductModel> billProducts=purchaseModel.getProducts();
-        List<ProductModel> updatedproduct = billProducts.stream()
-                .peek(product ->product.setStock(product.getStock()- product.getCount()))
-                .collect(Collectors.toList());
-        productRepo.updateAll(updatedproduct);
-        return  (PurchaseModel)purchaseRepo.saveBill(purchaseModel);
+    public PurchaseModel calculateBill(CartModel cartItems){
+        List<CartItem> products=cartItems.getCartItems();
+        List<ProductModel> purchasedItem = new ArrayList<>();
+        long total=0;
+        long totalDiscount=0;
+        //All the Product has been added to the list
+        //update the count of the product Model stock count by substracting the productmodel stock count
+        for(CartItem item : products){
+            ProductModel product = item.getProduct();
+            product.setStock(product.getStock()-item.getCount());
+             total += item.getCount()*(product.getPrice() - product.getPrice() * (product.getDiscount()/100));
+             totalDiscount +=item.getCount()*(product.getPrice()*(product.getDiscount()/100));
+            purchasedItem.add(product);
+        }
+        //create a product model name for PurchaseModel  for the bill to store bill information
+        PurchaseModel bill=  new PurchaseModel();
+        bill.setUsername(cartItems.getUser().getUser_name());
+        bill.setTotalAmount(total);
+        bill.setDiscountAmount(totalDiscount);
+        bill.setProducts(purchasedItem);
+        //update the products in the Model
+        return  (PurchaseModel)purchaseRepo.saveBill(bill);
 
     }
 

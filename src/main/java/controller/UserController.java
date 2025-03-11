@@ -1,5 +1,6 @@
 package controller;
 
+import model.CartModel;
 import model.ProductModel;
 import model.PurchaseModel;
 import model.UserModel;
@@ -40,8 +41,8 @@ public class UserController {
     }
 
     @GetMapping("/calculateBill")
-    public ResponseEntity<PurchaseModel> payBill(PurchaseModel model){
-        PurchaseModel bill = purchaseService.calculateTheBill(model);
+    public ResponseEntity<PurchaseModel> payBill(@RequestBody CartModel products){
+        PurchaseModel bill = purchaseService.calculateTheBill(products);
         return ResponseEntity.ok(bill);
     }
 
