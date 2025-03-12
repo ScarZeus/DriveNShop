@@ -4,6 +4,8 @@ import model.CartModel;
 import model.ProductModel;
 import model.PurchaseModel;
 import model.UserModel;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import service.PurchaseService;
 import service.UserService;
 
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -61,10 +65,13 @@ public class UserController {
 
     @GetMapping("/fetchImage/{id}/image")
     public ResponseEntity<byte[]> fetchImage(@PathVariable("id") long id){
+        HttpHeaders headers = new HttpHeaders();
         ProductModel product = productService.findByProductID(id);
         byte[] fileData = product.getImageData();
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(product.getImageType()))
+                .headers(headers)
+                .cacheControl(CacheControl.noCache())
                 .body(fileData);
     }
     //http://localhost:7050/E-CommerceAppFullStack/api/user/fetchImage/3/image

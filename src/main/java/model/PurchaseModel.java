@@ -24,7 +24,7 @@ public class PurchaseModel {
     @Column(name = "total_amount", nullable = false)
     private Long totalAmount;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<ProductModel> products;
 
     @Column(name="total_discountAmount")
@@ -33,6 +33,8 @@ public class PurchaseModel {
     @Column(name="PaymentModes")
     @Enumerated(EnumType.STRING)
     private PaymentModes paymentModes;
+
+
 
     public PurchaseModel() {
     }

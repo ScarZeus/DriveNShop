@@ -46,10 +46,11 @@ public class ProductModel {
     @Column(name="image_Type")
     private String imageType;
 
+
     public ProductModel() {
     }
 
-    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount,  String brand, int rating, byte[] imageData, String imageName, String imageType) {
+    public ProductModel(Long id, String name, String description, Long price, Long stock, String category, int discount, String brand, int rating, byte[] imageData, String imageName, String imageType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -119,7 +120,6 @@ public class ProductModel {
     public void setDiscount(int discount) {
         this.discount = discount;
     }
-
 
     public String getBrand() {
         return brand;
