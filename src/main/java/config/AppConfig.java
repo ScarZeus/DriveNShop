@@ -42,6 +42,7 @@ public class AppConfig implements WebMvcConfigurer {
                 .indentOutput(true)
                 .dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
                 .modulesToInstall(new ParameterNamesModule());
+        converters.add(byteArrayHttpMessageConverter());
         converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
     }
 
